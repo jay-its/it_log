@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Viewport: locked for kiosk use on iPad, no user scaling/zooming -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+
+    <title>IT Helpdesk Sign-In</title>
+    <meta name="description" content="Student IT helpdesk check-in / check-out kiosk" />
+
+    <!-- Theme / PWA -->
+    <meta name="theme-color" content="#1e3a8a" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- iOS: enable standalone (fullscreen) home-screen app mode -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="IT Sign-In" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Prevent iOS from auto-detecting/styling phone numbers & dates as links -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
