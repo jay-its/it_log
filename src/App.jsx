@@ -96,7 +96,7 @@ export default function App() {
         queueLength={queueLength}
         onConfigure={() => setShowUrlModal(true)}
       />
-      <Header activeTab={activeTab} onChangeTab={setActiveTab} />
+      <Header activeTab={activeTab} onChangeTab={setActiveTab} disabled={submitting} />
 
       <main className="flex flex-1 flex-col">
         {activeTab === 'checkin' ? (

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useElapsedSeconds } from '../hooks/useElapsedSeconds'
 
 const REASONS = [
   'Chromebook / Hardware',
@@ -13,6 +14,7 @@ export default function CheckInForm({ onSubmit, submitting, resetSignal }) {
   const [studentName, setStudentName] = useState('')
   const [reason, setReason] = useState('')
   const idInputRef = useRef(null)
+  const elapsed = useElapsedSeconds(submitting)
 
   useEffect(() => {
     setStudentId('')
@@ -22,6 +24,13 @@ export default function CheckInForm({ onSubmit, submitting, resetSignal }) {
   }, [resetSignal])
 
   const isValid = studentId.trim().length > 0 && studentName.trim().length > 0 && reason
+
+  let submitLabel = 'Sign In'
+  if (submitting) {
+    if (elapsed >= 8) submitLabel = 'Still working… first sign-in of the day can take a minute'
+    else if (elapsed >= 3) submitLabel = 'Still working…'
+    else submitLabel = 'Signing In…'
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -110,9 +119,11 @@ export default function CheckInForm({ onSubmit, submitting, resetSignal }) {
         <button
           type="submit"
           disabled={!isValid || submitting}
-          className="w-full rounded-2xl bg-emerald-600 py-6 text-2xl font-bold text-white shadow-lg transition-opacity active:bg-emerald-700 disabled:opacity-30"
+          className={`w-full rounded-2xl bg-emerald-600 py-6 font-bold text-white shadow-lg transition-opacity active:bg-emerald-700 disabled:opacity-60 ${
+            submitting && elapsed >= 8 ? 'text-lg' : 'text-2xl'
+          }`}
         >
-          {submitting ? 'Signing In…' : 'Sign In'}
+          {submitLabel}
         </button>
       </div>
     </form>
