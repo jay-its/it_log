@@ -36,6 +36,28 @@ Accessibility > Guided Access) to lock the iPad to this app.
    - Copy `.env.example` to `.env` and set `VITE_APPS_SCRIPT_URL` to that URL, or
    - Leave it unset — the app will prompt for the URL on first launch and save it to the iPad's local storage.
 
+## Deployment (GitHub Pages)
+
+Pushes to `main` auto-deploy via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+to `https://<owner>.github.io/it_log/`. One-time setup (requires repo admin access):
+
+1. **Settings → General → Danger Zone → Change visibility → Public.** GitHub
+   Pages only serves private repos on paid plans, and nothing secret lives in
+   this repo (the backend URL is entered on-device and stored in
+   `localStorage`, never committed).
+2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+3. Push to `main` (or run the workflow manually from the Actions tab) — the
+   site goes live at the URL above a minute or two later.
+
+The kiosk won't have `VITE_APPS_SCRIPT_URL` baked in on this deployment (it's
+intentionally not committed), so it'll show the on-screen "Connect to
+Backend" prompt the first time it loads — paste the Apps Script `/exec` URL
+there once and it's saved to that iPad's `localStorage`.
+
+Deploying elsewhere (Netlify, Vercel, Cloudflare Pages, etc.), which serve
+from the domain root instead of a `/it_log/` subpath? Build with
+`BASE_PATH=/ npm run build`.
+
 ## Offline behavior
 
 If the kiosk is offline (or the backend URL isn't configured yet), sign-ins

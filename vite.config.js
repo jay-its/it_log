@@ -2,20 +2,26 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// GitHub Pages serves this as a project site at /<repo>/, so every absolute
+// URL (assets, manifest start_url/scope, service worker scope) needs that
+// prefix. Set BASE_PATH=/ for other static hosts (Netlify, Vercel, etc.).
+const base = process.env.BASE_PATH || '/it_log/'
+
 // https://vite.dev/config/
 export default defineConfig({
+  base,
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icons/*.png'],
       manifest: {
-        id: '/',
+        id: base,
         name: 'IT Helpdesk Sign-In',
         short_name: 'IT Sign-In',
         description: 'Student IT helpdesk check-in / check-out kiosk',
-        start_url: '/',
-        scope: '/',
+        start_url: base,
+        scope: base,
         display: 'fullscreen',
         display_override: ['fullscreen', 'standalone'],
         orientation: 'portrait',
@@ -44,10 +50,10 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-        navigateFallback: '/index.html',
+        navigateFallback: `${base}index.html`,
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/'),
+            urlPattern: ({ url }) => url.pathname.startsWith(base),
             handler: 'NetworkFirst',
             options: {
               cacheName: 'app-shell',
