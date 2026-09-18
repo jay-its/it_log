@@ -35,6 +35,9 @@ export default function CheckInForm({ onSubmit, submitting, resetSignal }) {
   function handleSubmit(e) {
     e.preventDefault()
     if (!isValid || submitting) return
+    // iOS Safari doesn't blur a focused text input when a <button> is tapped,
+    // so the keyboard would otherwise stay open behind the success screen.
+    document.activeElement?.blur()
     onSubmit({
       studentId: studentId.trim(),
       studentName: studentName.trim(),
@@ -85,6 +88,7 @@ export default function CheckInForm({ onSubmit, submitting, resetSignal }) {
           id="checkin-name"
           type="text"
           autoComplete="off"
+          autoCapitalize="words"
           placeholder="Jane Doe"
           value={studentName}
           onChange={(e) => setStudentName(e.target.value)}
